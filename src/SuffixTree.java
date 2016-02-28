@@ -40,8 +40,8 @@ public class SuffixTree {
 		//	System.out.println("插之前活动三元组"+activePoint.toString());
 		//	System.out.println("插之前reminder：" + String.valueOf(reminder));
 
-			if(currenctIndex%1000==1)
-			   System.out.println("building the prefix tree: " + currenctIndex + "  /  "+(chars.length-1));
+	//		if(currenctIndex%1000==1)
+		//	   System.out.println("building the prefix tree: " + currenctIndex + "  /  "+(chars.length-1));
 			   
 			  
 

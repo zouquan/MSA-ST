@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -131,27 +132,37 @@ public class MSA {
 		  Num[i][j]=Num[j][i];
 		  Name[i][j]=Name[j][i];
 	  }
-      
+
       for(int j=i+1;j<n;j++){
     	  
     	  int index=0;
-    	  int k=0;
+
     	  int totalmatch=0;
+    	  ArrayList <Integer> result = new ArrayList();
   		while(index<Pi[j].length()){
   			int[] a = st1.selectPrefixForAlignment(Pi[j], index);
   			if(a[1]>0){
-  			    Name[i][j][1][k]=index;
-  			    Name[i][j][0][k]=a[0];
-  			    Name[i][j][2][k]=a[1];
-  			    k++;
+  				result.add(a[0]);
+  				result.add(index);
+  				result.add(a[1]);
   			    index+=a[1];
   			    totalmatch+=a[1];
   			}
   			else
-  				index++;
+  				index++;  			
   		}
   		Num[i][j]=totalmatch;
-    	  
+  		int[][] tmp = new int[3][result.size()];
+  		int k=0;
+  		while(k<result.size()){
+  			tmp[0][k/3]=result.get(k);
+  			k++;
+  			tmp[1][k/3]=result.get(k);
+  			k++;
+  			tmp[2][k/3]=result.get(k);
+  			k++;
+  		}
+    	Name[i][j]=tmp;  
       }
     }
     
