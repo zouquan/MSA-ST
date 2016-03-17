@@ -252,8 +252,7 @@ public class MSA {
 
       String strC=Pi[center].substring(Name[center][i][0][j-1]+Name[center][i][2][j-1],Name[center][i][0][j]);//此处有漏洞，如果Name[center][i][0][0]=0，会抱错
       String stri=Pi[i].substring(Name[center][i][1][j-1]+Name[center][i][2][j-1],Name[center][i][1][j]);
-      System.out.println(strC);
-      System.out.println(stri);
+
       int M[][]=new int[stri.length()+1][strC.length()+1];   //定义动态规划矩阵
       M=computeScoreMatrixForDynamicProgram(stri,strC);//动态规划矩阵计算完毕
       traceBackForDynamicProgram(M,stri.length(),strC.length(),i,Name[center][i][1][j-1]+Name[center][i][2][j-1],Name[center][i][0][j-1]+Name[center][i][2][j-1]);
