@@ -22,7 +22,7 @@ public class SuffixTree {
 	private ActivePoint activePoint = new ActivePoint(root, null, 0);
 	private int reminder = 0;// remainder，表示还剩多少后缀需要插入
 	
-	public int minMatchLen = 5;
+	public int minMatchLen = 15;
 
 	/**
 	 * 构建后缀树
@@ -228,9 +228,6 @@ public class SuffixTree {
 			//***********
 		}
 		
-
-		
-		System.out.println("Suffix tree is built successfully! ");
 	}
 
 	/**
@@ -564,8 +561,14 @@ splitNode=activePoint.point;//******我自己加的zouquan*******
 							}
 						}
 
+                        if(mindis<-minMatchLen){
 						back[0]=pos_j;
 						back[1]=i;
+                        }
+                        else{
+                        	back[0]=-1;
+    						back[1]=0;
+                        }
 											
 						return back;						
 					}else if(i<minMatchLen){
@@ -595,8 +598,15 @@ splitNode=activePoint.point;//******我自己加的zouquan*******
 						
 					}
 				}
-				back[0]=pos_j;
-				back[1]=i;
+
+				 if(mindis<-minMatchLen){
+						back[0]=pos_j;
+						back[1]=i;
+                     }
+                     else{
+                     	back[0]=-1;
+ 						back[1]=0;
+                     }
 				
 				return back;
 			} else if(i<minMatchLen){
