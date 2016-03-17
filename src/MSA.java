@@ -154,7 +154,7 @@ public class MSA {
   				index++;  			
   		}
   		Num[i][j]=totalmatch;
-  		int[][] tmp = new int[3][result.size()];
+  		int[][] tmp = new int[3][result.size()/3];
   		int k=0;
   		while(k<result.size()){
   			tmp[0][k/3]=result.get(k);
@@ -165,6 +165,12 @@ public class MSA {
   			k++;
   		}
     	Name[i][j]=tmp;  
+    	/**********
+    	for(int tt=0;tt<tmp[0].length;tt++){
+    		System.out.println(String.valueOf(tmp[0][tt])+"|"+String.valueOf(tmp[1][tt])+"|"+String.valueOf(tmp[2][tt]));
+    	}
+    	**********/
+    	
       }
     }
     
@@ -227,7 +233,7 @@ public class MSA {
   //比对Pi[i]与中心序列有重合的前端
   public void prealign(int i){
  
-         String strC=Pi[center].substring(0,Name[center][i][0][0]);
+           String strC=Pi[center].substring(0,Name[center][i][0][0]);
            String stri=Pi[i].substring(0,Name[center][i][1][0]);
            int M[][]=new int[stri.length()+1][strC.length()+1];   //定义动态规划矩阵
            M=computeScoreMatrixForDynamicProgram(stri,strC);//动态规划矩阵计算完毕
@@ -236,23 +242,30 @@ public class MSA {
   }
   //比对Pi[i]与中心序列有重合的中间部分
   public void midalign(int i,int j){
-    if(Name[center][i][0][j]!=0&&Name[center][i][1][j]>=Name[center][i][1][j-1]+Name[center][i][2][j-1]&&Name[center][i][0][j]-Name[center][i][2][j-1]>=Name[center][i][0][j-1])
-    {
+	  int lamda=Math.max(Name[center][i][1][j-1]+Name[center][i][2][j-1]-Name[center][i][1][j], Name[center][i][0][j-1]+Name[center][i][2][j-1]-Name[center][i][0][j]);
+  	  //lamda是为了防止前后两块完全匹配有覆盖，把覆盖部分删除
+  	  if(lamda>0){
+  		Name[center][i][0][j]+=lamda;
+  		Name[center][i][1][j]+=lamda;
+  		Name[center][i][2][j]-=lamda;
+  	  }
+
       String strC=Pi[center].substring(Name[center][i][0][j-1]+Name[center][i][2][j-1],Name[center][i][0][j]);//此处有漏洞，如果Name[center][i][0][0]=0，会抱错
       String stri=Pi[i].substring(Name[center][i][1][j-1]+Name[center][i][2][j-1],Name[center][i][1][j]);
+      System.out.println(strC);
+      System.out.println(stri);
       int M[][]=new int[stri.length()+1][strC.length()+1];   //定义动态规划矩阵
       M=computeScoreMatrixForDynamicProgram(stri,strC);//动态规划矩阵计算完毕
       traceBackForDynamicProgram(M,stri.length(),strC.length(),i,Name[center][i][1][j-1]+Name[center][i][2][j-1],Name[center][i][0][j-1]+Name[center][i][2][j-1]);
-    }
+    
+
   }
   //比对Pi[i]与中心序列有重合的后端
   public void postalign(int i){
-    int j=Name[center][i][0].length-1;
+    int j=Name[center][i][0].length;
     if(j>0)
     {String strC=Pi[center].substring(Name[center][i][0][j-1]+Name[center][i][2][j-1]);
      String stri=Pi[i].substring(Name[center][i][1][j-1]+Name[center][i][2][j-1]);
-     System.out.println(strC);
-     System.out.println(stri);
      
      int M[][]=new int[stri.length()+1][strC.length()+1];   //定义动态规划矩阵
      M=computeScoreMatrixForDynamicProgram(stri,strC);//动态规划矩阵计算完毕
@@ -271,10 +284,6 @@ public class MSA {
      prealign(i);
      for(int j=1;j<Name[center][i][0].length;j++){
       midalign(i,j);
-      System.out.println(Name[center][i][0][j-1]);
-      System.out.println(Name[center][i][1][j-1]);
-      System.out.println(Name[center][i][2][j-1]);
-      System.out.println("=============");
      }
      postalign(i);
   }

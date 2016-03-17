@@ -22,7 +22,7 @@ public class SuffixTree {
 	private ActivePoint activePoint = new ActivePoint(root, null, 0);
 	private int reminder = 0;// remainder，表示还剩多少后缀需要插入
 	
-	public int minMatchLen = 10;
+	public int minMatchLen = 5;
 
 	/**
 	 * 构建后缀树
