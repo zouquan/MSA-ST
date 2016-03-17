@@ -141,13 +141,15 @@ public class MSA {
     	  ArrayList <Integer> result = new ArrayList();
   		while(index<Pi[j].length()){
   			int[] a = st1.selectPrefixForAlignment(Pi[j], index);
-  			if(a[1]>0){
+  			if(a[1]>Math.abs(a[0]-index)){
   				result.add(a[0]);
   				result.add(index);
   				result.add(a[1]);
   			    index+=a[1];
   			    totalmatch+=a[1];
   			}
+  			else if(a[1]>0)
+  				index+=a[1];
   			else
   				index++;  			
   		}
@@ -225,7 +227,7 @@ public class MSA {
   //比对Pi[i]与中心序列有重合的前端
   public void prealign(int i){
  
-         String strC=Pi[center].substring(0,Name[center][i][0][0]);//此处有漏洞，如果Name[center][i][0][0]=0，会抱错
+         String strC=Pi[center].substring(0,Name[center][i][0][0]);
            String stri=Pi[i].substring(0,Name[center][i][1][0]);
            int M[][]=new int[stri.length()+1][strC.length()+1];   //定义动态规划矩阵
            M=computeScoreMatrixForDynamicProgram(stri,strC);//动态规划矩阵计算完毕
@@ -246,9 +248,12 @@ public class MSA {
   //比对Pi[i]与中心序列有重合的后端
   public void postalign(int i){
     int j=Name[center][i][0].length-1;
-    if(j!=0)
+    if(j>0)
     {String strC=Pi[center].substring(Name[center][i][0][j-1]+Name[center][i][2][j-1]);
      String stri=Pi[i].substring(Name[center][i][1][j-1]+Name[center][i][2][j-1]);
+     System.out.println(strC);
+     System.out.println(stri);
+     
      int M[][]=new int[stri.length()+1][strC.length()+1];   //定义动态规划矩阵
      M=computeScoreMatrixForDynamicProgram(stri,strC);//动态规划矩阵计算完毕
      traceBackForDynamicProgram(M,stri.length(),strC.length(),i,Name[center][i][1][j-1]+Name[center][i][2][j-1],Name[center][i][0][j-1]+Name[center][i][2][j-1]);
@@ -264,8 +269,13 @@ public class MSA {
 //将Pi[i]与中心序列进行比对
   public void pairwiseAlignForImproved(int i){
      prealign(i);
-     for(int j=1;j<Name[center][i][0].length;j++)
+     for(int j=1;j<Name[center][i][0].length;j++){
       midalign(i,j);
+      System.out.println(Name[center][i][0][j-1]);
+      System.out.println(Name[center][i][1][j-1]);
+      System.out.println(Name[center][i][2][j-1]);
+      System.out.println("=============");
+     }
      postalign(i);
   }
   public void pairwiseAlignForOld(int i){
@@ -344,7 +354,7 @@ public class MSA {
      for(j=0;j<Spaceother[i][Pi[i].length()];j++)
         kong=kong.concat("-");
       PiAlign[i]=PiAlign[i].concat(kong);
-//        System.out.println(Pi);
+
    //---Pi计算结束---------
      //----计算差异数组----
      int Cha[]=new int[Pi[center].length()+1];

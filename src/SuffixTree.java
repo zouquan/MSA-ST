@@ -537,11 +537,7 @@ splitNode=activePoint.point;//******我自己加的zouquan*******
 		for (int i = 0; i < chars.length; i++) {
 			if (start.chars.length < index + 1) {// 如果当前节点已匹配完，则从子节点开始，同时需重置index==0
 				index = 0;
-				//Integer[] startpos;
-				//startpos = new Integer[start.position.size()];
-				//startpos=start.position.toArray(startpos);
 				start = start.child;
-				
 
 				while (null != start) {
 					// 比较当前节点指定位置(index)的字符是否与待查找字符一致
@@ -549,9 +545,6 @@ splitNode=activePoint.point;//******我自己加的zouquan*******
 					
 					if (start.chars.length>index&&start.chars[index] == chars[i]) {
 						index++;
-						//startpos = new Integer[start.position.size()];
-						//startpos=start.position.toArray(startpos);
-
 						break;
 					} else if(null != start.brother){
 						start = start.brother;						
@@ -568,7 +561,6 @@ splitNode=activePoint.point;//******我自己加的zouquan*******
 							if(tmp<mindis){
 								mindis=tmp;
 								pos_j=startpos[j].intValue();
-
 							}
 						}
 
@@ -620,12 +612,7 @@ splitNode=activePoint.point;//******我自己加的zouquan*******
 		Integer[] startpos= (Integer[]) getNodeAllLeafSonLabel(start).toArray(new Integer[getNodeAllLeafSonLabel(start).size()]);
 		int mindis=Integer.MAX_VALUE;
 		int pos_j=-1;
-		//System.out.println(wordstartpos);
-		//System.out.println(word);
 		for(int j=0;j<startpos.length;j++){
-			//System.out.println(startpos[j].intValue());
-			
-			
 			int tmp=Math.abs(startpos[j].intValue()-wordstartpos);
 			if(tmp<mindis){
 				mindis=tmp;

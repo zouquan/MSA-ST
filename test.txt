@@ -1,0 +1,4 @@
+>KAsq0001,
+tgtctgcacagccgctttccacacagacatcataacaaaaaatttccaccaaaccccccccctc
+>KAsq0002,
+tgtctgcacaagccgctttccacacagacatcataacaaaaaatttccactcaaaccccccccctc
